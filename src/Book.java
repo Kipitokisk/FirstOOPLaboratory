@@ -1,8 +1,8 @@
 public class Book {
-    String title;
-    String author;
-    int totalNrOfPages;
-    int currentPage;
+    private String title;
+    private String author;
+    private int totalNrOfPages;
+    private int currentPage;
 
     public void nextPage(){
         if (currentPage + 1 <= totalNrOfPages && currentPage >= 0){
