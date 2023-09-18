@@ -22,6 +22,8 @@ public class Book {
     public void goToPage(int nr){
         if (nr >= 0 && nr <= totalNrOfPages){
             currentPage = nr;
+        } else {
+            System.out.println("No such page.");
         }
     }
 
