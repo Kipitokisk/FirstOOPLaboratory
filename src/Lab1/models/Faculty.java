@@ -1,5 +1,6 @@
 package Lab1.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Faculty {
@@ -22,5 +23,16 @@ public class Faculty {
                 ", students=" + students +
                 ", studyField=" + studyField +
                 '}';
+    }
+
+    public void addStudent(Student student){
+        if (students == null) {
+            students = new ArrayList<>(); // Initialize the list if it's null
+        }
+        students.add(student);
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
     }
 }

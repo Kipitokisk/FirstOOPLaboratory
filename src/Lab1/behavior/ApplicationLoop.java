@@ -1,10 +1,11 @@
 package Lab1.behavior;
 
 import Lab1.models.Faculty;
+import Lab1.models.Student;
 import Lab1.models.StudyField;
 import Lab1.models.University;
 
-import java.net.Proxy;
+import java.sql.Date;
 import java.util.Scanner;
 
 public class ApplicationLoop {
@@ -32,6 +33,24 @@ public class ApplicationLoop {
                 case "pf":
                     printFaculties();
                     break;
+                case "s":
+                    handleStudentCreate(commandsList);
+                    break;
+                case "ps":
+                    printStudents();;
+                    break;
+                case "as":
+                    assignStudentToFaculty(commandsList);
+                    break;
+                case "gs":
+                    graduateeStatus(commandsList);
+                    break;
+                case "pg":
+                    printGraduates();
+                    break;
+                case "bf":
+                    belongToFaculty(commandsList);
+                    break;
                 default:
                     System.out.println("Invalid command");
             }
@@ -49,23 +68,9 @@ public class ApplicationLoop {
         if(commands.length == 4) {
             addFaculty(commands);
         } else {
-            addFaculty();
+            System.out.println("Input error");
         }
     }
-
-    private void addFaculty() {
-        // add faculty
-        System.out.println("faculty name:");
-        String facultyName = scanner.nextLine();
-        System.out.println("faculty abbrev:");
-        String facultyAbbrev = scanner.nextLine();
-        System.out.println("faculty field:");
-        StudyField facultyField = StudyField.valueOf(scanner.next().toUpperCase());
-
-        Faculty faculty = new Faculty(facultyName, facultyAbbrev, facultyField);
-        this.university.addFaculty(faculty);
-    }
-
     private void addFaculty(String[] arguments) {
 
         Faculty faculty = new Faculty(arguments[1], arguments[2], StudyField.valueOf(arguments[3].toUpperCase()));
@@ -73,6 +78,40 @@ public class ApplicationLoop {
     }
 
     private void printFaculties() {
-        System.out.println(university);
+        System.out.println(university.toStringFaculties());
+    }
+
+    private void addStudent(String[] arguments) {
+        Student student = new Student(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+        this.university.addStudent(student);
+    }
+
+    private void handleStudentCreate(String[] commands) {
+        if (commands.length == 6) {
+            addStudent(commands);
+        } else {
+            System.out.println("Input error");
+            return;
+        }
+    }
+
+    private void printStudents(){
+        System.out.println(university.toStringStudents());
+    }
+
+    private void assignStudentToFaculty(String[] arguments) {
+        university.assignStudentToFaculty(arguments[1], arguments[2]);
+    }
+
+    private void graduateeStatus(String[] arguments){
+        university.graduateStatus(arguments[1], Boolean.valueOf(arguments[2]));
+    }
+
+    private void printGraduates(){
+        System.out.println(university.toStringGraduates());
+    }
+
+    private void belongToFaculty(String[] arguments){
+        university.belongToFaculty(arguments[1], arguments[2]);
     }
 }
