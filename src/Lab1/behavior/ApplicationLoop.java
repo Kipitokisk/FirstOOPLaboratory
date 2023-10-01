@@ -49,6 +49,9 @@ public class ApplicationLoop {
                     printGraduates();
                     break;
                 case "bf":
+                    isBelongToFaculty(commandsList);
+                    break;
+                case "df":
                     belongToFaculty(commandsList);
                     break;
                 default:
@@ -111,7 +114,12 @@ public class ApplicationLoop {
         System.out.println(university.toStringGraduates());
     }
 
-    private void belongToFaculty(String[] arguments){
-        university.belongToFaculty(arguments[1], arguments[2]);
+    private void isBelongToFaculty(String[] arguments){
+        university.isBelongToFaculty(arguments[1], arguments[2]);
     }
+
+    private void belongToFaculty(String[] arguments) {
+        university.belongToFaculty(arguments[1]);
+    }
+
 }

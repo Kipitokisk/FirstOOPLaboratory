@@ -3,7 +3,7 @@ package Lab1.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Faculty {
+public class Faculty{
     private String name;
     private String abbreviation;
     private List<Student> students;
@@ -27,12 +27,16 @@ public class Faculty {
 
     public void addStudent(Student student){
         if (students == null) {
-            students = new ArrayList<>(); // Initialize the list if it's null
+            students = new ArrayList<>();
         }
         students.add(student);
     }
 
     public String getAbbreviation() {
         return abbreviation;
+    }
+
+    public List<Student> getStudents() {
+        return students;
     }
 }
