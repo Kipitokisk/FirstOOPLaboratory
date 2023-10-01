@@ -90,4 +90,12 @@ public class University{
             }
         }
     }
+
+    public void facultyField(StudyField field) {
+        for (Faculty faculty : faculties) {
+            if (faculty.getStudyField() == field) {
+                System.out.println(faculty.getAbbreviation());
+            }
+        }
+    }
 }

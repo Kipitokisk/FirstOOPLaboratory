@@ -54,6 +54,9 @@ public class ApplicationLoop {
                 case "df":
                     belongToFaculty(commandsList);
                     break;
+                case "ff":
+                    facultyField(commandsList);
+                    break;
                 default:
                     System.out.println("Invalid command");
             }
@@ -120,6 +123,10 @@ public class ApplicationLoop {
 
     private void belongToFaculty(String[] arguments) {
         university.belongToFaculty(arguments[1]);
+    }
+
+    private void facultyField(String[] arguments) {
+        university.facultyField(StudyField.valueOf(arguments[1]));
     }
 
 }

@@ -39,4 +39,8 @@ public class Faculty{
     public List<Student> getStudents() {
         return students;
     }
+
+    public StudyField getStudyField() {
+        return studyField;
+    }
 }
