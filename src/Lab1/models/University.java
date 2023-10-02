@@ -65,10 +65,10 @@ public class University{
         }
     }
 
-    public void belongToFaculty(String email, String abreviation) {
+    public void isBelongToFaculty(String email, String abreviation) {
         for (Student student : students){
             if (student.getEmail().equals(email)){
-                for (Faculty faculty: faculties){
+                for (Faculty faculty : faculties){
                     if (faculty.getAbbreviation().equals(abreviation)) {
                         System.out.println("True");
                     } else {
@@ -79,5 +79,23 @@ public class University{
             }
         }
         System.out.println("No such email");
+    }
+
+    public void belongToFaculty(String email) {
+        for (Faculty faculty : faculties) {
+            for (Student student : faculty.getStudents()) {
+                if (student.getEmail().equals(email)) {
+                    System.out.println(faculty.getAbbreviation());
+                }
+            }
+        }
+    }
+
+    public void facultyField(StudyField field) {
+        for (Faculty faculty : faculties) {
+            if (faculty.getStudyField() == field) {
+                System.out.println(faculty.getAbbreviation());
+            }
+        }
     }
 }
