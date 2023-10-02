@@ -1,7 +1,5 @@
 package Lab1.models;
 
-import java.util.Date;
-
 public class Student {
     private String firstName;
     private String lastName;
@@ -9,6 +7,7 @@ public class Student {
     private String enrollmentDate;
     private String dateOfBirth;
     private boolean isGraduated;
+
 
     public Student(String firstName, String lastName, String email, String enrollmentDate, String dateOfBirth) {
         this.firstName = firstName;
@@ -20,27 +19,27 @@ public class Student {
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getEnrollmentDate() {
-        return enrollmentDate;
+        return this.enrollmentDate;
     }
 
     public String getDateOfBirth() {
-        return dateOfBirth;
+        return this.dateOfBirth;
     }
 
     public boolean isGraduated() {
-        return isGraduated;
+        return this.isGraduated;
     }
 
     public void setGraduated(boolean graduated) {

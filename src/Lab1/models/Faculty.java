@@ -6,6 +6,7 @@ import java.util.List;
 public class Faculty{
     private String name;
     private String abbreviation;
+    // TODO make students only in faculty
     private List<Student> students;
     private StudyField studyField;
 

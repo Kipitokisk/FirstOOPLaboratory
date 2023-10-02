@@ -5,7 +5,6 @@ import Lab1.models.Student;
 import Lab1.models.StudyField;
 import Lab1.models.University;
 
-import java.sql.Date;
 import java.util.Scanner;
 
 public class ApplicationLoop {
@@ -21,7 +20,7 @@ public class ApplicationLoop {
     }
 
     public void run() {
-        while (!this.command.equals("q") ) {
+        while (!this.command.equals("q")) {
             this.command = takeUserInput();
 
             String[] commandsList = this.command.split("/");
@@ -31,31 +30,31 @@ public class ApplicationLoop {
                     handleFacultyCreate(commandsList);
                     break;
                 case "pf":
-                    printFaculties();
+                    System.out.println(university.toStringFaculties());
                     break;
                 case "s":
                     handleStudentCreate(commandsList);
                     break;
                 case "ps":
-                    printStudents();;
+                    System.out.println(university.toStringStudents());
                     break;
                 case "as":
-                    assignStudentToFaculty(commandsList);
+                    university.assignStudentToFaculty(commandsList[1], commandsList[2]);
                     break;
                 case "gs":
-                    graduateeStatus(commandsList);
+                    university.graduateStatus(commandsList[1], Boolean.valueOf(commandsList[2]));
                     break;
                 case "pg":
-                    printGraduates();
+                    System.out.println(university.toStringGraduates());
                     break;
                 case "bf":
-                    isBelongToFaculty(commandsList);
+                    university.isBelongToFaculty(commandsList[1], commandsList[2]);
                     break;
                 case "df":
-                    belongToFaculty(commandsList);
+                    university.belongToFaculty(commandsList[1]);
                     break;
                 case "ff":
-                    facultyField(commandsList);
+                    university.facultyField(StudyField.valueOf(commandsList[1]));
                     break;
                 default:
                     System.out.println("Invalid command");
@@ -65,68 +64,37 @@ public class ApplicationLoop {
     }
 
     private String takeUserInput() {
-
         System.out.print("write command> ");
         return scanner.nextLine();
     }
 
     private void handleFacultyCreate(String[] commands) {
-        if(commands.length == 4) {
+        if (commands.length == 4) {
             addFaculty(commands);
         } else {
             System.out.println("Input error");
         }
     }
-    private void addFaculty(String[] arguments) {
 
+    private void addFaculty(String[] arguments) {
         Faculty faculty = new Faculty(arguments[1], arguments[2], StudyField.valueOf(arguments[3].toUpperCase()));
         this.university.addFaculty(faculty);
     }
 
-    private void printFaculties() {
-        System.out.println(university.toStringFaculties());
-    }
-
     private void addStudent(String[] arguments) {
         Student student = new Student(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
-        this.university.addStudent(student);
-    }
-
-    private void handleStudentCreate(String[] commands) {
-        if (commands.length == 6) {
-            addStudent(commands);
-        } else {
-            System.out.println("Input error");
-            return;
+        for (Faculty faculty : university.getFaculties()) {
+            if (faculty.getAbbreviation().equals(arguments[6])) {
+                faculty.addStudent(student);
+            }
         }
     }
 
-    private void printStudents(){
-        System.out.println(university.toStringStudents());
+    private void handleStudentCreate(String[] commands) {
+        if (commands.length == 7) {
+            addStudent(commands);
+        } else {
+            System.out.println("Input error");
+        }
     }
-
-    private void assignStudentToFaculty(String[] arguments) {
-        university.assignStudentToFaculty(arguments[1], arguments[2]);
-    }
-
-    private void graduateeStatus(String[] arguments){
-        university.graduateStatus(arguments[1], Boolean.valueOf(arguments[2]));
-    }
-
-    private void printGraduates(){
-        System.out.println(university.toStringGraduates());
-    }
-
-    private void isBelongToFaculty(String[] arguments){
-        university.isBelongToFaculty(arguments[1], arguments[2]);
-    }
-
-    private void belongToFaculty(String[] arguments) {
-        university.belongToFaculty(arguments[1]);
-    }
-
-    private void facultyField(String[] arguments) {
-        university.facultyField(StudyField.valueOf(arguments[1]));
-    }
-
 }
