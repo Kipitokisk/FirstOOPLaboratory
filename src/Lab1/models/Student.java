@@ -1,14 +1,15 @@
 package Lab1.models;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Student {
+public class Student implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
     private String enrollmentDate;
     private String dateOfBirth;
     private boolean isGraduated;
+
 
     public Student(String firstName, String lastName, String email, String enrollmentDate, String dateOfBirth) {
         this.firstName = firstName;
@@ -19,28 +20,12 @@ public class Student {
         this.isGraduated = false;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
     public String getEmail() {
-        return email;
-    }
-
-    public String getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
+        return this.email;
     }
 
     public boolean isGraduated() {
-        return isGraduated;
+        return this.isGraduated;
     }
 
     public void setGraduated(boolean graduated) {

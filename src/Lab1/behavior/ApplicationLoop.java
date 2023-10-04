@@ -5,128 +5,163 @@ import Lab1.models.Student;
 import Lab1.models.StudyField;
 import Lab1.models.University;
 
-import java.sql.Date;
 import java.util.Scanner;
 
 public class ApplicationLoop {
-
     private Scanner scanner;
     private University university;
     private String command;
+    private String line;
+    private Parser parser;
 
     public ApplicationLoop() {
+        this.parser = new Parser();
         this.scanner = new Scanner(System.in);
         this.university = new University();
         this.command = "";
+        this.line = "";
     }
 
     public void run() {
-        while (!this.command.equals("q") ) {
-            this.command = takeUserInput();
+        university = parser.getUniversityFromFile();
+        System.out.println("Choose from the following options:");
+        System.out.println("f - Faculty operations");
+        System.out.println("s - Student operations");
+        System.out.println();
+        System.out.println("q - Quit");
 
-            String[] commandsList = this.command.split("/");
-
-            switch (commandsList[0]) {
+        while (!this.line.equals("q")) {
+            this.line = takeUserInput();
+            switch (line) {
                 case "f":
-                    handleFacultyCreate(commandsList);
+                    while (true) {
+                        System.out.println("Faculty operations:");
+                        System.out.println();
+                        System.out.println("create/<faculty name>/<faculty abbreviation>/<study field> - create new faculty");
+                        System.out.println("list - print list of all faculties");
+                        System.out.println("field/<study field> - print all faculties belonging to a study field");
+                        System.out.println("students/<faculty abbreviation> - return list of all students belonging to faculty");
+                        System.out.println("back - go back");
+                        this.command = takeUserInput();
+                        String[] commandsList = this.command.split("/");
+                        if (commandsList[0].equals("back")) {
+                            break;
+                        }
+                        handleFacultyOperation(commandsList);
+                    }
                     break;
-                case "pf":
-                    printFaculties();
-                    break;
+
                 case "s":
-                    handleStudentCreate(commandsList);
+                    while (true) {
+                        System.out.println("Student operations:");
+                        System.out.println();
+                        System.out.println("create/<name>/<surname>/<email>/<date of enrollment>/<date of birth>/<faculty abbreviation> " +
+                                "- create new student");
+                        System.out.println("list of students - print list of all students");
+                        System.out.println("list of graduates - print list of all graduates");
+                        System.out.println("assign/<email>/<faculty abbreviation> - assign student to a different faculty");
+                        System.out.println("graduate/<email>/<true/false> - change graduate status of student");
+                        System.out.println("check/<email>/<faculty abbreviation> - check if student belongs to faculty");
+                        System.out.println("faculty/<email> - check what faculty the student belongs to");
+                        System.out.println("back - go back");
+                        this.command = takeUserInput();
+                        String[] commandsList1 = this.command.split("/");
+                        if (commandsList1[0].equals("back")) {
+                            break;
+                        }
+                        handleStudentOperation(commandsList1);
+                    }
                     break;
-                case "ps":
-                    printStudents();;
-                    break;
-                case "as":
-                    assignStudentToFaculty(commandsList);
-                    break;
-                case "gs":
-                    graduateeStatus(commandsList);
-                    break;
-                case "pg":
-                    printGraduates();
-                    break;
-                case "bf":
-                    isBelongToFaculty(commandsList);
-                    break;
-                case "df":
-                    belongToFaculty(commandsList);
-                    break;
-                case "ff":
-                    facultyField(commandsList);
+                case "q":
                     break;
                 default:
                     System.out.println("Invalid command");
             }
         }
+        this.parser.saveUniversityToFile(this.university);
         scanner.close();
     }
 
-    private String takeUserInput() {
 
+    private void handleFacultyOperation(String[] commandsList) {
+            switch (commandsList[0]) {
+                case "create":
+                    handleFacultyCreate(commandsList);
+                    break;
+                case "list":
+                    university.toStringFaculties();
+                    break;
+                case "field":
+                    university.facultyField(StudyField.valueOf(commandsList[1]));
+                    break;
+                case "students":
+                    university.toStringStudentsOfFaculty(commandsList[1]);
+                    break;
+                default:
+                    System.out.println("Invalid faculty operation");
+            }
+    }
+
+    public void handleStudentOperation(String[] commandsList) {
+            switch (commandsList[0]) {
+                case "create":
+                    handleStudentCreate(commandsList);
+                    break;
+                case "list of students":
+                    university.toStringStudents();
+                    break;
+                case "list of graduates":
+                    university.toStringGraduates();
+                    break;
+                case "assign":
+                    university.assignStudentToFaculty(commandsList[1], commandsList[2]);
+                    break;
+                case "graduate":
+                    university.graduateStatus(commandsList[1], Boolean.valueOf(commandsList[2]));
+                    break;
+                case "check":
+                    university.isBelongToFaculty(commandsList[1], commandsList[2]);
+                    break;
+                case "faculty":
+                    university.belongToFaculty(commandsList[1]);
+                    break;
+            }
+    }
+
+    private String takeUserInput() {
         System.out.print("write command> ");
         return scanner.nextLine();
     }
 
     private void handleFacultyCreate(String[] commands) {
-        if(commands.length == 4) {
+        if (commands.length == 4) {
             addFaculty(commands);
         } else {
             System.out.println("Input error");
         }
     }
-    private void addFaculty(String[] arguments) {
 
+    private void addFaculty(String[] arguments) {
         Faculty faculty = new Faculty(arguments[1], arguments[2], StudyField.valueOf(arguments[3].toUpperCase()));
         this.university.addFaculty(faculty);
     }
 
-    private void printFaculties() {
-        System.out.println(university.toStringFaculties());
-    }
-
     private void addStudent(String[] arguments) {
-        Student student = new Student(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
-        this.university.addStudent(student);
+        for (Faculty faculty : university.getFaculties()) {
+            if (faculty.getAbbreviation().equals(arguments[6])) {
+                Student student = new Student(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+                faculty.addStudent(student);
+                return;
+            }
+        }
+        System.out.println("No such faculty");
     }
 
     private void handleStudentCreate(String[] commands) {
-        if (commands.length == 6) {
+        if (commands.length == 7) {
             addStudent(commands);
         } else {
             System.out.println("Input error");
-            return;
         }
     }
-
-    private void printStudents(){
-        System.out.println(university.toStringStudents());
-    }
-
-    private void assignStudentToFaculty(String[] arguments) {
-        university.assignStudentToFaculty(arguments[1], arguments[2]);
-    }
-
-    private void graduateeStatus(String[] arguments){
-        university.graduateStatus(arguments[1], Boolean.valueOf(arguments[2]));
-    }
-
-    private void printGraduates(){
-        System.out.println(university.toStringGraduates());
-    }
-
-    private void isBelongToFaculty(String[] arguments){
-        university.isBelongToFaculty(arguments[1], arguments[2]);
-    }
-
-    private void belongToFaculty(String[] arguments) {
-        university.belongToFaculty(arguments[1]);
-    }
-
-    private void facultyField(String[] arguments) {
-        university.facultyField(StudyField.valueOf(arguments[1]));
-    }
-
 }
