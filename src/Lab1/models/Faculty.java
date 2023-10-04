@@ -2,11 +2,11 @@ package Lab1.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Faculty{
+public class Faculty implements Serializable{
     private String name;
     private String abbreviation;
-    // TODO make students only in faculty
     private List<Student> students;
     private StudyField studyField;
 

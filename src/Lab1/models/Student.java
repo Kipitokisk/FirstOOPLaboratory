@@ -1,6 +1,8 @@
 package Lab1.models;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
@@ -18,24 +20,8 @@ public class Student {
         this.isGraduated = false;
     }
 
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
     public String getEmail() {
         return this.email;
-    }
-
-    public String getEnrollmentDate() {
-        return this.enrollmentDate;
-    }
-
-    public String getDateOfBirth() {
-        return this.dateOfBirth;
     }
 
     public boolean isGraduated() {

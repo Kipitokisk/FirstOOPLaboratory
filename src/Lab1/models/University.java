@@ -2,19 +2,20 @@ package Lab1.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class University{
+public class University implements Serializable {
     private List<Faculty> faculties = new ArrayList<>();
 
     public void addFaculty(Faculty faculty) {
         faculties.add(faculty);
     }
 
-    public String toStringFaculties() {
-        return "Faculties: {" + faculties + '}';
+    public void toStringFaculties() {
+        System.out.println(faculties);;
     }
 
-    public String toStringGraduates() {
+    public void toStringGraduates() {
         StringBuilder text = new StringBuilder();
         for (Faculty faculty : faculties) {
             for (Student student : faculty.getStudents()) {
@@ -23,10 +24,20 @@ public class University{
                 }
             }
         }
-        return text.toString();
+        System.out.println(text);
     }
 
-    public String toStringStudents() {
+    public void toStringStudentsOfFaculty(String abbreviation) {
+        for (Faculty faculty : faculties) {
+            if (faculty.getAbbreviation().equals(abbreviation)) {
+                System.out.println(faculty.getStudents());
+                return;
+            }
+        }
+        System.out.println("No such faculty");
+    }
+
+    public void toStringStudents() {
         StringBuilder text = new StringBuilder();
         for (Faculty faculty : faculties) {
             if (faculty.getStudents() != null) {
@@ -37,7 +48,7 @@ public class University{
                 }
             }
         }
-        return String.valueOf(text);
+        System.out.println(text);
     }
 
     public void graduateStatus(String email, Boolean val){
