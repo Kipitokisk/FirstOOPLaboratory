@@ -29,36 +29,50 @@ public class ApplicationLoop {
         System.out.println("s - Student operations");
         System.out.println();
         System.out.println("q - Quit");
+
         while (!this.line.equals("q")) {
             this.line = takeUserInput();
-//After inputing f, s or q and doing one of their operations, the user goes back to choosing f, s or q
-//TODO make it so user stays in loop for faculty/student operations until he chooses to go back
             switch (line) {
                 case "f":
-                    System.out.println("Faculty operations:");
-                    System.out.println();
-                    System.out.println("create/<faculty name>/<faculty abbreviation>/<study field> - create new faculty");
-                    System.out.println("list - print list of all faculties");
-                    System.out.println("field/<study field> - print all faculties belonging to a study field");
-                    System.out.println("students/<faculty abbreviation> - return list of all students belonging to faculty");
-                    this.command = takeUserInput();
-                    String[] commandsList = this.command.split("/");
-                    handleFacultyOperation(commandsList);
+                    while (true) {
+                        System.out.println("Faculty operations:");
+                        System.out.println();
+                        System.out.println("create/<faculty name>/<faculty abbreviation>/<study field> - create new faculty");
+                        System.out.println("list - print list of all faculties");
+                        System.out.println("field/<study field> - print all faculties belonging to a study field");
+                        System.out.println("students/<faculty abbreviation> - return list of all students belonging to faculty");
+                        System.out.println("back - go back");
+                        this.command = takeUserInput();
+                        String[] commandsList = this.command.split("/");
+                        if (commandsList[0].equals("back")) {
+                            break;
+                        }
+                        handleFacultyOperation(commandsList);
+                    }
                     break;
+
                 case "s":
-                    this.command = takeUserInput();
-                    System.out.println("Student operations:");
-                    System.out.println();
-                    System.out.println("create/<name>/<surname>/<email>/<date of enrollment>/<date of birth>/<faculty abreviation> " +
-                            "- create new student");
-                    System.out.println("list of students - print list of all students");
-                    System.out.println("list of graduates - print list of all graduates");
-                    System.out.println("assign/<email>/<faculty abbreviation> - assign student to different faculty");
-                    System.out.println("graduate/<email> - change graduate status of student");
-                    System.out.println("check/<email>/<faculty abbreviation - check if student belongs to faculty");
-                    System.out.println("faculty/<email> - check what faculty the student belongs to");
-                    String[] commandsList1 = this.command.split("/");
-                    handleStudentOperation(commandsList1);
+                    while (true) {
+                        System.out.println("Student operations:");
+                        System.out.println();
+                        System.out.println("create/<name>/<surname>/<email>/<date of enrollment>/<date of birth>/<faculty abbreviation> " +
+                                "- create new student");
+                        System.out.println("list of students - print list of all students");
+                        System.out.println("list of graduates - print list of all graduates");
+                        System.out.println("assign/<email>/<faculty abbreviation> - assign student to a different faculty");
+                        System.out.println("graduate/<email>/<true/false> - change graduate status of student");
+                        System.out.println("check/<email>/<faculty abbreviation> - check if student belongs to faculty");
+                        System.out.println("faculty/<email> - check what faculty the student belongs to");
+                        System.out.println("back - go back");
+                        this.command = takeUserInput();
+                        String[] commandsList1 = this.command.split("/");
+                        if (commandsList1[0].equals("back")) {
+                            break;
+                        }
+                        handleStudentOperation(commandsList1);
+                    }
+                    break;
+                case "q":
                     break;
                 default:
                     System.out.println("Invalid command");
@@ -67,6 +81,7 @@ public class ApplicationLoop {
         this.parser.saveUniversityToFile(this.university);
         scanner.close();
     }
+
 
     private void handleFacultyOperation(String[] commandsList) {
             switch (commandsList[0]) {
@@ -132,12 +147,14 @@ public class ApplicationLoop {
     }
 
     private void addStudent(String[] arguments) {
-        Student student = new Student(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         for (Faculty faculty : university.getFaculties()) {
             if (faculty.getAbbreviation().equals(arguments[6])) {
+                Student student = new Student(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
                 faculty.addStudent(student);
+                return;
             }
         }
+        System.out.println("No such faculty");
     }
 
     private void handleStudentCreate(String[] commands) {

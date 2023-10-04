@@ -12,7 +12,11 @@ public class University implements Serializable {
     }
 
     public void toStringFaculties() {
-        System.out.println(faculties);;
+        StringBuilder text = new StringBuilder();
+        for (Faculty faculty : faculties) {
+            text.append(faculty).append("\n");
+        }
+        System.out.println(text);
     }
 
     public void toStringGraduates() {
@@ -30,7 +34,15 @@ public class University implements Serializable {
     public void toStringStudentsOfFaculty(String abbreviation) {
         for (Faculty faculty : faculties) {
             if (faculty.getAbbreviation().equals(abbreviation)) {
-                System.out.println(faculty.getStudents());
+                StringBuilder text = new StringBuilder();
+                    if (faculty.getStudents() != null) {
+                        for (Student student : faculty.getStudents()) {
+                            if (!student.isGraduated()) {
+                                text.append(student).append("\n");
+                            }
+                        }
+                    }
+                System.out.println(text);
                 return;
             }
         }
