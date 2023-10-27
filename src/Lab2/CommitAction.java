@@ -14,4 +14,8 @@ public class CommitAction extends FileAction {
         snapshotTime = new Date();
         System.out.println("Snapshot time updated to: " + snapshotTime);
     }
+
+    public Date getSnapshotTime() {
+        return snapshotTime;
+    }
 }

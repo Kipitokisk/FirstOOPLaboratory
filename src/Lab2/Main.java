@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         CommitAction commitAction = new CommitAction();
-        StatusAction statusAction = new StatusAction(null);
 
         String folderPath = "C:\\JavaProjects\\OOP_UTM\\OOPLaboratory\\src\\Lab2\\Files";
         File folder = new File(folderPath);
@@ -33,11 +32,14 @@ public class Main {
                     infoAction.execute(parts);
                     break;
                 case "status":
+                    StatusAction statusAction = new StatusAction(commitAction.getSnapshotTime());
                     statusAction.execute(parts);
                     break;
                 case "exit":
                     running = false;
                     break;
+                case "display":
+                    System.out.println(commitAction.getSnapshotTime());
                 default:
                     System.out.println("Invalid command");
             }
