@@ -1,4 +1,6 @@
 package Lab2;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,8 +35,8 @@ public class InfoAction extends FileAction {
             System.out.println("Last Modified Date: " + dateFormat.format(new Date(file.lastModified())));
 
             if (extension.equals("png") || extension.equals("jpg")) {
-                int imageSize = getImageSize(file);
-                System.out.println("Image Size: " + imageSize + " bytes");
+                String imageSize = getImageDimensions(file);
+                System.out.println("Image Size: " + imageSize);
             } else if (extension.equals("txt")) {
                 int lineCount = getLineCount(file);
                 int wordCount = getWordCount(file);
@@ -136,5 +138,16 @@ public class InfoAction extends FileAction {
             methodCount = 0;
         }
         return methodCount;
+    }
+
+    private String getImageDimensions(File file) {
+        try {
+            BufferedImage image = ImageIO.read(file);
+            int width = image.getWidth();
+            int height = image.getHeight();
+            return width + "x" + height;
+        } catch (IOException e) {
+            return "N/A";
+        }
     }
 }
