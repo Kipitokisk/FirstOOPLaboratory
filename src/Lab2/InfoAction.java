@@ -1,10 +1,17 @@
 package Lab2;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 public class InfoAction extends FileAction {
+    private final String folderPath = "C:\\JavaProjects\\OOP_UTM\\OOPLaboratory\\src\\Lab2\\Files";
+
     @Override
     public void execute(String[] args) {
         if (args.length < 2) {
@@ -13,7 +20,7 @@ public class InfoAction extends FileAction {
         }
 
         String filename = args[1];
-        File file = new File(filename);
+        File file = new File(folderPath + File.separator + filename);
 
         if (file.exists()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -21,7 +28,8 @@ public class InfoAction extends FileAction {
 
             System.out.println("File Name: " + file.getName());
             System.out.println("Extension: " + extension);
-            System.out.println("Created Date: " + dateFormat.format(new Date(file.lastModified())));
+            String createdDate = getCreatedDate(file.toPath());
+            System.out.println("Created Date: " + createdDate);
             System.out.println("Last Modified Date: " + dateFormat.format(new Date(file.lastModified())));
 
             if (extension.equals("png") || extension.equals("jpg")) {
@@ -44,6 +52,16 @@ public class InfoAction extends FileAction {
             }
         } else {
             System.out.println("File not found: " + filename);
+        }
+    }
+
+    private String getCreatedDate(Path path) {
+        try {
+            BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+            FileTime creationTime = attributes.creationTime();
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(creationTime.toMillis()));
+        } catch (IOException e) {
+            return "N/A";
         }
     }
 
