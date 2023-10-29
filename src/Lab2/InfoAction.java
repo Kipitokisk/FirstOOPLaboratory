@@ -34,7 +34,7 @@ public class InfoAction extends FileAction {
             System.out.println("Created Date: " + createdDate);
             System.out.println("Last Modified Date: " + dateFormat.format(new Date(file.lastModified())));
 
-            if (extension.equals("png") || extension.equals("jpg")) {
+            if (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg")) {
                 String imageSize = getImageDimensions(file);
                 System.out.println("Image Size: " + imageSize);
             } else if (extension.equals("txt")) {
@@ -115,7 +115,7 @@ public class InfoAction extends FileAction {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
-                if (line.startsWith("class ")) {
+                if (line.startsWith("public class ")) {
                     classCount++;
                 }
             }
