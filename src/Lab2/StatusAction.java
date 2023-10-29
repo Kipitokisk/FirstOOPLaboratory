@@ -2,12 +2,16 @@ package Lab2;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StatusAction extends FileAction {
     private Date lastSnapshotTime;
+    private Set<String> lastSnapshotFiles;
 
-    public StatusAction(Date lastSnapshotTime) {
+    public StatusAction(Date lastSnapshotTime, Set<String> lastSnapshotFiles) {
         this.lastSnapshotTime = lastSnapshotTime;
+        this.lastSnapshotFiles = lastSnapshotFiles;
     }
 
     @Override
@@ -20,14 +24,30 @@ public class StatusAction extends FileAction {
             if (files != null) {
                 System.out.println("Created Snapshot at: " + lastSnapshotTime);
 
+                Set<String> currentFiles = new HashSet<>();
                 for (File file : files) {
                     Date lastModifiedTime = new Date(file.lastModified());
-                    String status = (lastModifiedTime.after(lastSnapshotTime)) ? "Changed" : "No Change";
+                    String status = "No Change";
+
+                    if (lastModifiedTime.after(lastSnapshotTime)) {
+                        status = "Changed";
+                    }
+
+                    currentFiles.add(file.getName());
+
+                    if (!lastSnapshotFiles.contains(file.getName())) {
+                        status = "New File";
+                    }
+
                     System.out.println(file.getName() + " - " + status);
+                }
+
+                for (String fileName : lastSnapshotFiles) {
+                    if (!currentFiles.contains(fileName)) {
+                        System.out.println(fileName + " - Deleted File");
+                    }
                 }
             }
         }
     }
 }
-
-
