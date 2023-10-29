@@ -35,12 +35,8 @@ public class ApplicationLoop {
             switch (line) {
                 case "f":
                     while (true) {
-                        System.out.println("Faculty operations:");
-                        System.out.println();
-                        System.out.println("create/<faculty name>/<faculty abbreviation>/<study field> - create new faculty");
-                        System.out.println("list - print list of all faculties");
-                        System.out.println("field/<study field> - print all faculties belonging to a study field");
-                        System.out.println("students/<faculty abbreviation> - return list of all students belonging to faculty");
+                        // mskr a method
+                        print();
                         System.out.println("back - go back");
                         this.command = takeUserInput();
                         String[] commandsList = this.command.split("/");
@@ -80,6 +76,15 @@ public class ApplicationLoop {
         }
         this.parser.saveUniversityToFile(this.university);
         scanner.close();
+    }
+
+    private static void print() {
+        System.out.println("Faculty operations:");
+        System.out.println();
+        System.out.println("create/<faculty name>/<faculty abbreviation>/<study field> - create new faculty");
+        System.out.println("list - print list of all faculties");
+        System.out.println("field/<study field> - print all faculties belonging to a study field");
+        System.out.println("students/<faculty abbreviation> - return list of all students belonging to faculty");
     }
 
 
