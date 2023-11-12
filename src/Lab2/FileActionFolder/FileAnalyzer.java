@@ -6,7 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FileAnalyzer {
+public class FileAnalyzer implements Lab2.FileActionFolder.File {
+    @Override
     public int getLineCount(File file) {
         try (Scanner scanner = new Scanner(file)) {
             int lineCount = 0;
@@ -20,6 +21,7 @@ public class FileAnalyzer {
         }
     }
 
+    @Override
     public int getWordCount(File file) {
         try (Scanner scanner = new Scanner(file)) {
             int wordCount = 0;
@@ -33,6 +35,7 @@ public class FileAnalyzer {
         }
     }
 
+    @Override
     public int getCharacterCount(File file) {
         try (Scanner scanner = new Scanner(file)) {
             int characterCount = 0;
@@ -46,6 +49,7 @@ public class FileAnalyzer {
         }
     }
 
+    @Override
     public int getClassCount(File file) {
         int classCount = 0;
         try (Scanner scanner = new Scanner(file)) {
@@ -61,6 +65,7 @@ public class FileAnalyzer {
         return classCount;
     }
 
+    @Override
     public int getMethodCount(File file) {
         int methodCount = 0;
         try (Scanner scanner = new Scanner(file)) {
@@ -76,6 +81,7 @@ public class FileAnalyzer {
         return methodCount;
     }
 
+    @Override
     public String getImageDimensions(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
