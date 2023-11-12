@@ -1,4 +1,6 @@
 package Lab2;
+import Lab2.FileActionFolder.FileAction;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class InfoAction extends FileAction {
+public class InfoAction implements FileAction {
     private final String folderPath = "C:\\JavaProjects\\OOP_UTM\\OOPLaboratory\\src\\Lab2\\Files";
 
     @Override
@@ -67,10 +69,6 @@ public class InfoAction extends FileAction {
         }
     }
 
-    private int getImageSize(File file) {
-        return (int) file.length();
-    }
-
     private int getLineCount(File file) {
         try (Scanner scanner = new Scanner(file)) {
             int lineCount = 0;
@@ -115,7 +113,7 @@ public class InfoAction extends FileAction {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
-                if (line.startsWith("public class ")) {
+                if (line.contains("class") || line.contains("enum")) {
                     classCount++;
                 }
             }
@@ -130,7 +128,7 @@ public class InfoAction extends FileAction {
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine().trim();
-                if (line.startsWith("def ") || line.startsWith("public void ")) {
+                if (line.contains("def") || line.contains("public void")) {
                     methodCount++;
                 }
             }

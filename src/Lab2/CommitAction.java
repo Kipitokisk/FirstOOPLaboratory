@@ -1,8 +1,9 @@
 package Lab2;
-import java.io.File;
+import Lab2.FileActionFolder.FileAction;
+
 import java.util.Date;
 
-public class CommitAction extends FileAction {
+public class CommitAction implements FileAction {
     private Date snapshotTime;
 
     public CommitAction() {
