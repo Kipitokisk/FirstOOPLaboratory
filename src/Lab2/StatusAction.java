@@ -1,11 +1,13 @@
 package Lab2;
 
+import Lab2.FileActionFolder.FileAction;
+
 import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StatusAction extends FileAction {
+public class StatusAction implements FileAction {
     private Date lastSnapshotTime;
     private Set<String> lastSnapshotFiles;
 
