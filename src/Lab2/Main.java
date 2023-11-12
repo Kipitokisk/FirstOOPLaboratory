@@ -1,5 +1,8 @@
 package Lab2;
 
+import Lab2.FileActionFolder.FileActionExecutor;
+import Lab2.FileActionFolder.FileUtility;
+
 import java.io.File;
 import java.util.Scanner;
 import java.util.HashSet;
@@ -29,16 +32,18 @@ public class Main {
 
             switch (command) {
                 case "commit":
-                    commitAction.execute(parts);
-                    lastSnapshotFiles = getSnapshotFiles(folder);
+                    FileActionExecutor commitExecutor = new FileActionExecutor(commitAction);
+                    commitExecutor.execute(parts);
+                    lastSnapshotFiles = FileUtility.getSnapshotFiles(folder);
                     break;
                 case "info":
-                    InfoAction infoAction = new InfoAction();
-                    infoAction.execute(parts);
+                    FileActionExecutor infoExecutor = new FileActionExecutor(new InfoAction());
+                    infoExecutor.execute(parts);
                     break;
                 case "status":
-                    StatusAction statusAction = new StatusAction(commitAction.getSnapshotTime(), lastSnapshotFiles);
-                    statusAction.execute(parts);
+                    FileActionExecutor statusExecutor = new FileActionExecutor(
+                            new StatusAction(commitAction.getSnapshotTime(), lastSnapshotFiles));
+                    statusExecutor.execute(parts);
                     break;
                 case "exit":
                     running = false;
@@ -47,18 +52,5 @@ public class Main {
                     System.out.println("Invalid command");
             }
         }
-    }
-
-    private static Set<String> getSnapshotFiles(File folder) {
-        Set<String> snapshotFiles = new HashSet<>();
-        if (folder.exists() && folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    snapshotFiles.add(file.getName());
-                }
-            }
-        }
-        return snapshotFiles;
     }
 }

@@ -1,6 +1,6 @@
 package Lab2.FileActionFolder;
 
-class FileActionExecutor {
+public class FileActionExecutor {
     private FileAction fileAction;
 
     public FileActionExecutor(FileAction fileAction) {
