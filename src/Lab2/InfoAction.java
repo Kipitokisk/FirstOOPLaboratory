@@ -1,7 +1,9 @@
 package Lab2;
 import Lab2.FileActionFolder.FileAction;
-import Lab2.FileActionFolder.FileAnalyzer;
 import Lab2.FileActionFolder.FileInfo;
+import Lab2.Types.Code;
+import Lab2.Types.Image;
+import Lab2.Types.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -9,7 +11,6 @@ import java.util.Date;
 
 public class InfoAction implements FileAction {
     private final FileInfo fileInfo = new FileInfo();
-    private final FileAnalyzer fileAnalyzer = new FileAnalyzer();
 
     @Override
     public void execute(String[] args) {
@@ -24,30 +25,22 @@ public class InfoAction implements FileAction {
         if (file.exists()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String extension = filename.substring(filename.lastIndexOf('.') + 1);
-
-            System.out.println("File Name: " + file.getName());
-            System.out.println("Extension: " + extension);
             String createdDate = fileInfo.getCreatedDate(file.toPath());
-            System.out.println("Created Date: " + createdDate);
-            System.out.println("Last Modified Date: " + dateFormat.format(new Date(file.lastModified())));
+            String lastModifiedDate = dateFormat.format(new Date(file.lastModified()));
 
-            if (extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg")) {
-                String imageSize = fileAnalyzer.getImageDimensions(file);
-                System.out.println("Image Size: " + imageSize);
-            } else if (extension.equals("txt")) {
-                int lineCount = fileAnalyzer.getLineCount(file);
-                int wordCount = fileAnalyzer.getWordCount(file);
-                int characterCount = fileAnalyzer.getCharacterCount(file);
-                System.out.println("Line Count: " + lineCount);
-                System.out.println("Word Count: " + wordCount);
-                System.out.println("Character Count: " + characterCount);
-            } else if (extension.equals("py") || extension.equals("java")) {
-                int lineCount = fileAnalyzer.getLineCount(file);
-                int classCount = fileAnalyzer.getClassCount(file);
-                int methodCount = fileAnalyzer.getMethodCount(file);
-                System.out.println("Line Count: " + lineCount);
-                System.out.println("Class Count: " + classCount);
-                System.out.println("Method Count: " + methodCount);
+            switch (extension) {
+                case "png", "jpg", "jpeg" -> {
+                    Image image = new Image(file.getName(), extension, createdDate, lastModifiedDate);
+                    System.out.println(image);
+                }
+                case "txt" -> {
+                    Text text = new Text(file.getName(), extension, createdDate, lastModifiedDate);
+                    System.out.println(text);
+                }
+                case "py", "java" -> {
+                    Code code = new Code(file.getName(), extension, createdDate, lastModifiedDate);
+                    System.out.println(code);
+                }
             }
         } else {
             System.out.println("File not found: " + filename);
