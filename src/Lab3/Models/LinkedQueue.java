@@ -36,7 +36,7 @@ public class LinkedQueue implements Queue{
         int element = peek();
         front = front.next;
         if (front == null) {
-            rear = null; // Queue is now empty
+            rear = null;
         }
         size--;
         return element;
