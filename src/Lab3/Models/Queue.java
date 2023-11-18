@@ -1,8 +1,8 @@
 package Lab3.Models;
 
 public interface Queue {
-    void enqueue(int value);
+    void enqueue(int element);
     int dequeue();
     int peek();
-    void print();
+    boolean isEmpty();
 }
