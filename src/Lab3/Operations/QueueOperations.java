@@ -28,10 +28,16 @@ public class QueueOperations {
                     queue.enqueue(element);
                     break;
                 case 2:
-                    System.out.println("Dequeued element from queue: " + queue.dequeue());
+                    int dequeuedElement = queue.dequeue();
+                    if (dequeuedElement != -1) {
+                        System.out.println("Dequeued element from queue: " + dequeuedElement);
+                    }
                     break;
                 case 3:
-                    System.out.println("Peeked element from queue: " + queue.peek());
+                    int peekedElement = queue.peek();
+                    if (peekedElement != -1) {
+                        System.out.println("Peeked element from queue: " + peekedElement);
+                    }
                     break;
                 case 0:
                     return;

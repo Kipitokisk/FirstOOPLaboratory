@@ -14,8 +14,10 @@ public class Main {
             System.out.println("\nChoose a data structure:");
             System.out.println("1. Stack (ArrayUpStack)");
             System.out.println("2. Stack (LinkedStack)");
-            System.out.println("3. Queue (ArrayUpQueue)");
-            System.out.println("4. Queue (LinkedQueue)");
+            System.out.println("3. Stack (ArrayDownStack)");
+            System.out.println("4. Queue (ArrayUpQueue)");
+            System.out.println("5. Queue (LinkedQueue)");
+            System.out.println("6. Queue (ArrayDownQueue)");
             System.out.println("0. Exit");
 
             int dataStructureChoice = scanner.nextInt();
@@ -32,14 +34,24 @@ public class Main {
                     linkedStackOperations.performStackOperations(scanner);
                     break;
                 case 3:
+                    Stack arrayDownStack = new ArrayDownStack();
+                    StackOperations arrayDownStackOperations = new StackOperations(arrayDownStack);
+                    arrayDownStackOperations.performStackOperations(scanner);
+                    break;
+                case 4:
                     Queue arrayUpQueue = new ArrayUpQueue();
                     QueueOperations arrayUpQueueOperations = new QueueOperations(arrayUpQueue);
                     arrayUpQueueOperations.performQueueOperations(scanner);
                     break;
-                case 4:
+                case 5:
                     Queue linkedQueue = new LinkedQueue();
                     QueueOperations linkedQueueOperations = new QueueOperations(linkedQueue);
                     linkedQueueOperations.performQueueOperations(scanner);
+                    break;
+                case 6:
+                    Queue arrayDownQueue = new ArrayDownQueue();
+                    QueueOperations arrayDownQueueOperations = new QueueOperations(arrayDownQueue);
+                    arrayDownQueueOperations.performQueueOperations(scanner);
                     break;
                 case 0:
                     System.out.println("Exiting program.");

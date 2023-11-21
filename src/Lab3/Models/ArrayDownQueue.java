@@ -1,27 +1,26 @@
 package Lab3.Models;
 
-public class ArrayUpQueue implements Queue{
+public class ArrayDownQueue implements Queue {
     private int[] array;
     private int front;
     private int rear;
     private int size;
 
-    public ArrayUpQueue() {
+    public ArrayDownQueue() {
         array = new int[5];
-        front = 0;
-        rear = -1;
-        size = 0;
+        front = 4;
+        rear = 0;
+        size = 5;
     }
 
     @Override
     public void enqueue(int element) {
-        if (size == 5) {
+        if (front == -1) {
             System.out.println("Queue is full. Cannot enqueue element.");
             return;
         }
-        rear++;
-        array[rear] = element;
-        size++;
+        array[front] = element;
+        front--;
     }
 
     @Override
@@ -31,8 +30,10 @@ public class ArrayUpQueue implements Queue{
             return -1;
         }
         int element = peek();
-        front++;
-        size--;
+        for (int i = size - 1; i > front + 1; i--){
+            array[i] = array[i-1];
+        }
+        front += 1;
         return element;
     }
 
@@ -42,11 +43,12 @@ public class ArrayUpQueue implements Queue{
             System.out.println("Queue is empty. Cannot peek.");
             return -1;
         }
-        return array[front];
+        int peekIndex = size-1;
+        return array[peekIndex];
     }
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return front == size-1;
     }
 }

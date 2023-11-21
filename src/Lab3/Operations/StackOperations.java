@@ -28,10 +28,16 @@ public class StackOperations {
                     stack.push(element);
                     break;
                 case 2:
-                    System.out.println("Popped element from stack: " + stack.pop());
+                    int poppedElement = stack.pop();
+                    if (poppedElement != -1) {
+                        System.out.println("Popped element from stack: " + poppedElement);
+                    }
                     break;
                 case 3:
-                    System.out.println("Peeked element from stack: " + stack.peek());
+                    int peekedElement = stack.peek();
+                    if (peekedElement != -1) {
+                        System.out.println("Peeked element from stack: " + peekedElement);
+                    }
                     break;
                 case 0:
                     return;
